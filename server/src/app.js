@@ -4,8 +4,9 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const createError = require('http-errors');
-const xssClean = require('xss-clean');
+//const xssClean = require('xss-clean');
 const rateLimit = require('express-rate-limit');
+const userRouter = require('./routers/userRouter');
 
 
 const rateLimiter = rateLimit({
@@ -18,12 +19,11 @@ const rateLimiter = rateLimit({
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(xssClean());
+//app.use(xssClean());
 app.use(rateLimiter);
 
 
-
-
+app.use('/api/users',userRouter);
 
 
 
@@ -33,11 +33,7 @@ app.get('/test', (req,res) => {
     });
 });
 
-app.get('/api/users', (req,res) => {
-    res.status(200).send({
-        message : 'user profile is returned',
-    });
-});
+
 
 
 // client error handling

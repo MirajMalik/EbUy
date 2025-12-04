@@ -1,0 +1,29 @@
+# Dependencies
+/node_modules
+/client/node_modules
+/server/node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Server Build files (if applicable)
+/server/dist
+/server/build
+
+
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Client Build files
+/client/build
+/client/dist
+/client/.env # Keep secrets out of Git!
+
+# OS generated files
+.DS_Store
+Thumbs.db
