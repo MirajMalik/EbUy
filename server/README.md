@@ -16,3 +16,4 @@
  - 9.Followed MVC architecture
  - 10.Schema and Model for user
  - 11.created seed route for testing
+ - 12.GET /api/users => getAllUsers -> searchByName + pagination functionality added
