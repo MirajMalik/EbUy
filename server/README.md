@@ -1,9 +1,5 @@
 # EbUy - MERN stack project
 
-## Environment Setup
-
-## Express Server Setup
-
 ## **Steps**
  - 1.Created express server
  - 2.HTTP request and response
