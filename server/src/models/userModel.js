@@ -17,13 +17,13 @@ const userSchema = new Schema({
         trim : true,
         unique : true,
         lowercase : true,
-        validate : {
-            validator: function(v) {
-                return /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim.test(v);
-            },
+        // validate : {
+        //     validator: function(v) {
+        //         return /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim.test(v);
+        //     },
 
-            message : 'Enter valid email',
-        }
+        //     message : 'Enter valid email',
+        // }
     },
 
     password : {
