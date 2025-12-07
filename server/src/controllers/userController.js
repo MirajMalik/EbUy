@@ -3,6 +3,8 @@ const { users } = require('../data');
 const User = require('../models/userModel');
 const { successResponse } = require('./responseController');
 const  mongoose  = require('mongoose');
+const findWithId = require('../services/findItem');
+const fs = require('fs');
 
 
 
@@ -59,12 +61,7 @@ const getUser = async(req,res,next) => {
     try {
         const id = req.params.id;
         const options = {password : 0};
-
-        const user = await User.findById(id,options);
-
-        if(!user){ 
-            throw createError(404,'User doesnt exist with this id')
-        }
+        const user = await findWithId(id,options);
 
         return successResponse(res,{
         statusCode : 200,
@@ -73,13 +70,51 @@ const getUser = async(req,res,next) => {
     });
 
     } catch (error) {
-        if(error instanceof mongoose.Error){
-            next(createError(400,'Invalid User ID'));
-            return;
-        }
+        
         next(error);
     }
 };
+
+
+
+
+const deleteUser = async(req,res,next) => {
+    try {
+        const id = req.params.id;
+        const user = await findWithId(id);
+
+        // for deleting the user image
+        const userImagePath = user.image;
+        fs.access(userImagePath,(err)=>{
+            if(err){
+                console.error('User Image does not exist');
+            }else{
+                fs.unlink(userImagePath,(err)=>{
+                    if(err) throw err;
+                    console.log('User Image is Deleted');
+                })
+            }
+        });
+
+
+        await User.findByIdAndDelete({
+            _id: id,
+            isAdmin: false,
+        });
+
+        return successResponse(res,{
+        statusCode : 200,
+        message : 'User is deleted Successfully',
+    });
+
+    } catch (error) {
+        
+        next(error);
+    }
+};
+
+
+
 
 
 const getProfile = (req,res) => {
@@ -95,4 +130,4 @@ const getProfile = (req,res) => {
 };
 
 
-module.exports = {getUsers,getProfile,getUser};
+module.exports = {getUsers,getProfile,getUser,deleteUser};
