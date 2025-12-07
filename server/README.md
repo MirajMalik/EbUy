@@ -13,3 +13,4 @@
  - 10.Schema and Model for user
  - 11.created seed route for testing
  - 12.GET /api/users => getAllUsers -> searchByName + pagination functionality added
+ - 13.responseHandler controller for error & success

@@ -8,6 +8,7 @@ const createError = require('http-errors');
 const rateLimit = require('express-rate-limit');
 const userRouter = require('./routers/userRouter');
 const { seedRouter } = require('./routers/seedRouter');
+const { errorResponse } = require('./controllers/responseController');
 
 
 const rateLimiter = rateLimit({
@@ -46,13 +47,9 @@ app.use((req,res,next) => {
 
 // server error handling
 app.use((err,req,res,next) => {
-    const status = err.status || 500;
-    if (status === 500) {
-        console.error('Server Error:', err.message);
-    }
-    return res.status(status).json({
-        success : false,
-        message : err.message, 
+    return errorResponse(res, {
+        statusCode : err.status,
+        message : err.message,
     });
 });
 
