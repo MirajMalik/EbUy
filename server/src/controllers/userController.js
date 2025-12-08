@@ -57,11 +57,11 @@ const getUsers = async(req,res,next) => {
 };
 
 
-const getUser = async(req,res,next) => {
+const getUserById = async(req,res,next) => {
     try {
         const id = req.params.id;
         const options = {password : 0};
-        const user = await findWithId(id,options);
+        const user = await findWithId(User,id,options);
 
         return successResponse(res,{
         statusCode : 200,
@@ -78,10 +78,10 @@ const getUser = async(req,res,next) => {
 
 
 
-const deleteUser = async(req,res,next) => {
+const deleteUserById = async(req,res,next) => {
     try {
         const id = req.params.id;
-        const user = await findWithId(id);
+        const user = await findWithId(User,id);
 
         // for deleting the user image
         const userImagePath = user.image;
@@ -130,4 +130,4 @@ const getProfile = (req,res) => {
 };
 
 
-module.exports = {getUsers,getProfile,getUser,deleteUser};
+module.exports = {getUsers,getProfile,getUserById,deleteUserById};
