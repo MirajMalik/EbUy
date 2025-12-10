@@ -15,3 +15,4 @@
  - 12.GET /api/users => getAllUsers -> searchByName + pagination functionality added
  - 13.responseHandler controller for error & success
  - 14.GET /api/users/:id -> get a single user by id
+ - 15.Delete Image helper
