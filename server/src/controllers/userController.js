@@ -5,6 +5,8 @@ const { successResponse } = require('./responseController');
 const  mongoose  = require('mongoose');
 const findWithId = require('../services/findItem');
 const deleteImage = require('../helper/deleteUser');
+const { createJSONWebToken } = require('../helper/jsonwebtoken');
+const { jwtActivationkey } = require('../secret');
 const fs = require('fs').promises;
 
 
@@ -134,5 +136,33 @@ const getProfile = (req,res) => {
     }
 };
 
+const processRegister =  async (req,res,next) => {
+    try {
+        const {name,email,password,phone,address} = req.body;
+        
+        const existedUser = await User.exists({email : email});
+        if(existedUser){
+            throw createError(409,'User with this email is already exists.Please Sign IN'); // 409 for conflict
+        }
 
-module.exports = {getUsers,getProfile,getUserById,deleteUserById};
+        // create jwt
+
+        const token = createJSONWebToken( 
+            {name,email,password,phone,address} , 
+            jwtActivationkey , 
+            '10m');
+
+
+        return successResponse(res,{
+        statusCode : 200,
+        message : 'User is created Successfully',
+        payload : {token},
+    });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+module.exports = {getUsers,getProfile,getUserById,deleteUserById,processRegister};
