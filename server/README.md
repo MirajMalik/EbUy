@@ -19,3 +19,4 @@
  - 16.POST /api/users/process-register => registration process
  - 17.POST api/users/verify => verification
  - 18.Create JWT
+ - 19.Setup SMTP server and prepare email

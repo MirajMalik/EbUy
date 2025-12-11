@@ -6,7 +6,7 @@ const  mongoose  = require('mongoose');
 const findWithId = require('../services/findItem');
 const deleteImage = require('../helper/deleteUser');
 const { createJSONWebToken } = require('../helper/jsonwebtoken');
-const { jwtActivationkey } = require('../secret');
+const { jwtActivationkey, clientUrl } = require('../secret');
 const fs = require('fs').promises;
 
 
@@ -151,6 +151,20 @@ const processRegister =  async (req,res,next) => {
             {name,email,password,phone,address} , 
             jwtActivationkey , 
             '10m');
+
+        // prepare email
+        const emailData = {
+            email,
+            subject: "Account Activation Email",
+            html: `
+                <h2>Hello ${name}</h2>
+                <p>Please click here <a href="${clientUrl}/api/users/activate/${token}" target="_blank"> activate your account</a> </p>
+            `
+        }
+
+
+
+        // send email with nodemailer
 
 
         return successResponse(res,{

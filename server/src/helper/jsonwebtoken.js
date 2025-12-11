@@ -21,4 +21,4 @@ const createJSONWebToken = (payload,secretKey,
    
 };
 
-module.exports = {createJSONWebToken};
+module.exports = {createJSONWebToken}; 
