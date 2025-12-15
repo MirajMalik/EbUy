@@ -20,3 +20,4 @@
  - 17.POST api/users/verify => verification
  - 18.Create JWT
  - 19.Setup SMTP server and prepare email
+ - 20.Succesfully send mail with nodemailer
