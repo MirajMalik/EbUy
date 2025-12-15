@@ -1,4 +1,5 @@
 const createError = require('http-errors');
+const jwt = require('jsonwebtoken');
 const { users } = require('../data');
 const User = require('../models/userModel');
 const { successResponse } = require('./responseController');
@@ -188,4 +189,42 @@ const processRegister =  async (req,res,next) => {
 };
 
 
-module.exports = {getUsers,getProfile,getUserById,deleteUserById,processRegister};
+const activateUserAccount =  async (req,res,next) => {
+    try {
+        const token = req.body.token;
+        if(!token) throw createError(404,'token not found');
+
+        try {
+             const decoded = jwt.verify(token,jwtActivationkey);
+             if(!decoded) throw createError(401,'user is not verified');
+
+             const existedUser = await User.exists({email : decoded.email});
+             if(existedUser){
+                throw createError(409,'User with this email is already exists.'); // 409 for conflict
+            }
+             //console.log(decoded);
+             await User.create(decoded);
+
+             return successResponse(res,{
+                statusCode : 201,
+                message : `User is registered successfully`,
+             });
+            
+        } catch (error) {
+            if(error.name==='TokenExpiredError') {
+                throw createError(401,'token has expired');
+            } else if(error.name === 'JsonWebTokenError') {
+                throw createError(401,'Invalid token');
+            } else {
+                throw error;
+            }
+        }
+
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+module.exports = {getUsers,getProfile,getUserById,deleteUserById,processRegister,activateUserAccount};

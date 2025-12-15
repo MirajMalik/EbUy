@@ -21,3 +21,4 @@
  - 18.Create JWT
  - 19.Setup SMTP server and prepare email
  - 20.Succesfully send mail with nodemailer
+ - 21.POST /api/users/verify => verification + register into database
