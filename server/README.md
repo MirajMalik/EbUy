@@ -24,3 +24,4 @@
  - 21.POST /api/users/verify => verification + register into database
  - 22.File upload using multer package
  - 23.File filtering 
+ - 24.Input Validation using express-validator
