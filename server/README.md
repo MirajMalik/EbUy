@@ -25,3 +25,4 @@
  - 22.File upload using multer package
  - 23.File filtering 
  - 24.Input Validation using express-validator
+ - 25.Validated User registration process

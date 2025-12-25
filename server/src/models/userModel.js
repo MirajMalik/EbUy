@@ -35,6 +35,7 @@ const userSchema = new Schema({
 
     image : {
         type : String,
+        minlength : [3,'User address must be more than 3 characters'],
         default : defaultImage,
     },
 
