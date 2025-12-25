@@ -34,9 +34,9 @@ const userSchema = new Schema({
      },
 
     image : {
-        type : String,
-        minlength : [3,'User address must be more than 3 characters'],
-        default : defaultImage,
+        type : Buffer,
+        contentType : String,
+        required: [true,'User image is required']
     },
 
     address : {

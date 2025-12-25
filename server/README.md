@@ -26,3 +26,4 @@
  - 23.File filtering 
  - 24.Input Validation using express-validator
  - 25.Validated User registration process
+ - 26.Store image as a buffer data type
