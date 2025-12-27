@@ -12,10 +12,6 @@ const emailWithNodeMailer = require('../helper/email');
 const fs = require('fs').promises;
 
 
-
-
-
-
 const getUsers = async(req,res,next) => {
     try {
         const search = req.query.search || "";
@@ -80,6 +76,67 @@ const getUserById = async(req,res,next) => {
     }
 };
 
+const updateUserById = async (req,res,next) => {
+    try{
+        const userId = req.params.id;
+        const options = {password : 0};
+        const user = await findWithId(User,userId,options);
+
+        const updateOptions = {
+            new: true,
+            runValidators: true,
+            context: 'query',
+        };
+
+        let updates = {};
+
+        // option -1 
+        // if(req.body.name) {
+        //     updates.name = req.body.name;
+        // }
+        // if(req.body.password) {
+        //     updates.password = req.body.password;
+        // }
+        // if(req.body.phone) {
+        //     updates.phone = req.body.phone;
+        // }
+        // if(req.body.address) {
+        //     updates.address = req.body.address;
+        // }
+
+        // option -2
+        for(let key in req.body) {
+            if(['name','password','phone','address'].includes(key)) {
+                updates[key] = req.body[key];
+            };
+        };
+
+        const image = req.file;
+        if(image) {
+            if(image > 1024 * 1024 * 2) {
+                throw createError(400,'Image file is too large.File must be less then 2Mb'); // image size max 2 mb
+            };
+            updates.image = image.buffer.toString('base64');
+        };
+
+        const updatedUser = await User.findByIdAndUpdate(userId,updates,updateOptions).select("-password");
+
+        if(!updatedUser) {
+            throw createError(404,'User with this id doesnt exists');
+        };
+
+
+
+        return successResponse(res,{
+            statusCode : 200,
+            message : 'User is updated Successfully',
+            payload: updatedUser ,
+        });
+
+ } catch (error) {  
+        next(error);
+    }
+};
 
 
 
@@ -142,16 +199,22 @@ const processRegister =  async (req,res,next) => {
     try {
         const {name,email,password,phone,address} = req.body;
 
-        if(!req.file){
-            
-        }
+        const imageFile = req.file;
 
-        const imageBufferString = req.file.buffer.toString('base64');
+        if(!imageFile){
+            throw createError(400,'Image file is required');
+        };
+
+        if(imageFile > 1024 * 1024 * 2){
+            throw createError(400,'Image file is too large.File must be less then 2Mb');
+        };
+
+        const imageBufferString = imageFile.buffer.toString('base64');
         
         const existedUser = await User.exists({email : email});
         if(existedUser){
             throw createError(409,'User with this email is already exists.Please Sign IN'); // 409 for conflict
-        }
+        };
 
         // create jwt
 
@@ -233,4 +296,4 @@ const activateUserAccount =  async (req,res,next) => {
 };
 
 
-module.exports = {getUsers,getProfile,getUserById,deleteUserById,processRegister,activateUserAccount};
+module.exports = {getUsers,getProfile,getUserById,deleteUserById,processRegister,activateUserAccount,updateUserById};

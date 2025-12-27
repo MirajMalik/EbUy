@@ -27,3 +27,4 @@
  - 24.Input Validation using express-validator
  - 25.Validated User registration process
  - 26.Store image as a buffer data type
+ - 27.PUT /api/users/:id => update a single user by id
