@@ -90,13 +90,6 @@ export default function Users() {
       {loading && <p>Loading users...</p>}
       {err && <p style={{ color: "crimson" }}>Error: {err}</p>}
 
-      {/* Small meta/debug info (optional) */}
-      {!loading && !err && (
-        <p style={{ fontSize: 13, opacity: 0.8 }}>
-          Showing: <b>{users.length}</b> users | Page: <b>{page}</b> | Search:{" "}
-          <b>{searchQuery || "none"}</b>
-        </p>
-      )}
 
       {/* Users list */}
       <ul style={{ paddingLeft: 18 }}>
@@ -120,7 +113,7 @@ export default function Users() {
         <span>Page: {page}</span>
 
         <button
-          disabled={loading || users.length < limit} // if we got less than limit, likely last page
+          disabled={loading || users.length < limit} 
           onClick={() => setPage((p) => p + 1)}
         >
           Next
