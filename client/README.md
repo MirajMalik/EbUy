@@ -11,4 +11,27 @@ EbUy is a simple learning-oriented e-commerce project built with:
 
 -Implement /users/:id UI 
 
+## Registration + Email Verification Flow
+
+### 1) Register
+Frontend sends a multipart/form-data request to:
+
+POST `/api/users/process-register`
+
+Fields:
+- name, email, password, phone, address
+- image (file) required
+
+Backend generates an activation JWT (10 minutes) and sends an email.
+
+### 2) Verify
+Frontend verifies the user by sending:
+
+POST `/api/users/verify`
+
+Body:
+```json
+{ "token": "<activation_token>" }
+
+
 

@@ -14,4 +14,19 @@ export async function getUsers ({search = "", page = 1, limit = 10 } = {}) {
   });
 
   return res.data;
-}
+};
+
+
+// POST /api/users/process-register
+export async function processRegister(formData) {
+  const res = await axios.post("/api/users/process-register", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+};
+
+// Verify registration: POST /api/users/verify
+export async function verifyUser(payload) {
+  const res = await axios.post("/api/users/verify", payload);
+  return res.data;
+};
