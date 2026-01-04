@@ -4,6 +4,8 @@ import Users from "./pages/Users";
 import UserDetails from "./pages/users/UserDetails";
 import Register from "./pages/auth/Register";
 import Verify from "./pages/auth/Verify";
+import Products from "./pages/Products";
+import Cart from "./pages/Cart";
 
 export default function App() {
   return (
@@ -13,6 +15,10 @@ export default function App() {
       <nav style={{ display: "flex", gap: 12, marginBottom: 16 }}>
         <Link to="/">Home</Link>
         <Link to="/users">Users</Link>
+
+        <Link to="/products">Products</Link>
+        <Link to="/cart">Cart</Link>
+
         <Link to="/register">Register</Link>
         <Link to="/verify">Verify</Link>
       </nav>
@@ -20,6 +26,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/users/:id" element={<UserDetails />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify" element={<Verify />} />
