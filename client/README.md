@@ -33,5 +33,10 @@ Body:
 ```json
 { "token": "<activation_token>" }
 
+### Product browsing
+- `/products` shows product list (mock data for now)
+- `/products/:id` shows a single product details page
+- Add to cart works from both list page and details page
+- Cart uses browser localStorage 
 
 

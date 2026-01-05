@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { clearCart, getCart, removeFromCart, setQty } from "./cartStorage";
+import { clearCart, getCart, removeFromCart, setQty } from "../products/cartStorage";
 
 export default function Cart() {
   // This runs ONLY once (on first render) and sets initial cart items.
