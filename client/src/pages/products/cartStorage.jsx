@@ -14,6 +14,7 @@ export function getCart() {
 // Save cart to localStorage
 export function setCart(items) {
   localStorage.setItem(CART_KEY, JSON.stringify(items));
+  window.dispatchEvent(new Event("cart:updated"));
 };
 
 // Add product to cart 

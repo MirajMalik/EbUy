@@ -39,4 +39,8 @@ Body:
 - Add to cart works from both list page and details page
 - Cart uses browser localStorage 
 
+## UI Layout
+- Added reusable `Layout` component with sticky header + footer
+- Header uses `NavLink` for active route styling
+- Cart badge updates instantly using a custom `cart:updated` event + localStorage cart
 
