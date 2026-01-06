@@ -1,0 +1,70 @@
+/* Home page */
+.hero {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.heroRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.heroTitle {
+  font-size: 34px;
+  margin: 0;
+}
+
+.heroText {
+  color: var(--muted);
+  margin: 8px 0 0 0;
+  max-width: 520px;
+  line-height: 1.5;
+}
+
+.heroBtns {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  margin: 18px 0 10px 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 800px) {
+  .badges {
+    grid-template-columns: 1fr;
+  }
+}
+
+.badgeCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.badgeTitle {
+  margin: 0;
+  font-weight: 800;
+}
+
+.badgeDesc {
+  margin: 6px 0 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}

@@ -105,6 +105,97 @@ body {
   margin-left: 6px;
 }
 
+
+
+/* Product grid */
+.grid {
+  display: grid;
+  gap: 14px;
+}
+
+.grid3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .grid3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.cardTitle {
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+.cardMuted {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 10px 0;
+}
+
+.cardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.priceTag {
+  font-weight: 800;
+}
+
+
+/* Product details */
+.detailsCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  max-width: 800px;
+}
+
+.detailsTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detailsName {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.detailsPrice {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.detailsActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+
 /* Footer */
 .footer {
   margin-top: 28px;
