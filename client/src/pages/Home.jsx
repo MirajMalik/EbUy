@@ -93,7 +93,7 @@ export default function Home() {
       <div className="hero" style={{ marginTop: 18 }}>
         <h3 style={{ marginTop: 0 }}>Ready to build full e-commerce?</h3>
         <p style={{ color: "var(--muted)", marginTop: 6 }}>
-          Next we will connect products to backend API, add checkout, and user login.
+          loading
         </p>
 
         <Link to="/products">
