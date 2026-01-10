@@ -1,32 +1,27 @@
+import "../../styles/cart.css";
 import { useState } from "react";
 import { clearCart, getCart, removeFromCart, setQty } from "../products/cartStorage";
+import { Link } from "react-router-dom";
 
 export default function Cart() {
-  // This runs ONLY once (on first render) and sets initial cart items.
-  // It avoids calling setState inside useEffect.
+
   const [items, setItems] = useState(() => getCart());
 
-  // Total price = sum of (price * qty) for each item
+  // Total = sum(price * qty)
   const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   function handleRemove(id) {
-    // removeFromCart updates localStorage and returns the updated cart array
-    const updated = removeFromCart(id);
-    // setItems updates React state so UI updates immediately
-    setItems(updated);
+    const updated = removeFromCart(id); // updates localStorage
+    setItems(updated); // updates UI
   }
 
   function handleQty(id, newQty) {
-    // setQty updates localStorage and returns the updated cart array
-    const updated = setQty(id, newQty);
-    // update UI state
+    const updated = setQty(id, newQty); // ensures qty >= 1
     setItems(updated);
   }
 
   function handleClear() {
-    // clearCart empties localStorage and returns []
-    const updated = clearCart();
-    // update UI state
+    const updated = clearCart(); // empty cart in localStorage
     setItems(updated);
   }
 
@@ -35,57 +30,121 @@ export default function Cart() {
       <h2>Cart</h2>
 
       {items.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div className="card">
+          <p style={{ marginTop: 0 }}>Your cart is empty.</p>
+          <Link to="/products">
+            <button className="btn btnPrimary" type="button">
+              Go Shopping
+            </button>
+          </Link>
+        </div>
       ) : (
-        <>
-          <div style={{ display: "grid", gap: 10, maxWidth: 600 }}>
-            {items.map((item) => (
-              <div
-                key={item.id}
-                style={{
-                  border: "1px solid #ddd",
-                  padding: 12,
-                  borderRadius: 8,
-                }}
-              >
-                <div style={{ fontWeight: 600 }}>{item.name}</div>
+        <div className="cartWrap">
+          {/* LEFT: Cart Items */}
+          <div className="cartList">
+            <div className="cartRow" style={{ fontWeight: 800 }}>
+              <div>Product</div>
+              <div>Price</div>
+              <div>Qty</div>
+              <div>Subtotal</div>
+              <div />
+            </div>
 
-                <div style={{ fontSize: 13, opacity: 0.8 }}>
-                  Price: ৳ {item.price}
+            {items.map((item) => (
+              <div key={item.id} className="cartRow">
+                {/* Product column */}
+                <div>
+                  <div className="cartName">{item.name}</div>
+                  <div className="cartMuted">ID: {item.id}</div>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: 8,
-                    marginTop: 8,
-                    alignItems: "center",
-                  }}
-                >
-                  {/* Decrease qty */}
-                  <button onClick={() => handleQty(item.id, item.qty - 1)}>-</button>
+                {/* Price column */}
+                <div>৳ {item.price}</div>
 
-                  <span>Qty: {item.qty}</span>
-
-                  {/* Increase qty */}
-                  <button onClick={() => handleQty(item.id, item.qty + 1)}>+</button>
-
-                  {/* Remove item */}
+                {/* Quantity column */}
+                <div className="qtyBox">
                   <button
-                    style={{ marginLeft: "auto" }}
-                    onClick={() => handleRemove(item.id)}
+                    className="qtyBtn"
+                    type="button"
+                    onClick={() => handleQty(item.id, item.qty - 1)}
                   >
-                    Remove
+                    -
+                  </button>
+
+                  <span>{item.qty}</span>
+
+                  <button
+                    className="qtyBtn"
+                    type="button"
+                    onClick={() => handleQty(item.id, item.qty + 1)}
+                  >
+                    +
                   </button>
                 </div>
+
+                {/* Subtotal column */}
+                <div>৳ {item.price * item.qty}</div>
+
+                {/* Remove button */}
+                <button className="btn" type="button" onClick={() => handleRemove(item.id)}>
+                  Remove
+                </button>
               </div>
             ))}
+
+            <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <Link to="/products">
+                <button className="btn" type="button">
+                  Continue Shopping
+                </button>
+              </Link>
+
+              <button className="btn" type="button" onClick={handleClear}>
+                Clear Cart
+              </button>
+            </div>
           </div>
 
-          <h3 style={{ marginTop: 14 }}>Total: ৳ {total}</h3>
+          {/* RIGHT: Summary */}
+          <div className="summary">
+            <h3 className="summaryTitle">Order Summary</h3>
 
-          <button onClick={handleClear}>Clear cart</button>
-        </>
+            <div className="summaryRow">
+              <span>Items</span>
+              <span>{items.length}</span>
+            </div>
+
+            <div className="summaryRow">
+              <span>Delivery</span>
+              <span>৳ 0</span>
+            </div>
+
+            <div className="summaryRow">
+              <span>Discount</span>
+              <span>৳ 0</span>
+            </div>
+
+            <div className="hr" />
+
+            <div className="summaryTotal">
+              <span>Total</span>
+              <span>৳ {total}</span>
+            </div>
+
+            <button
+              className="btn btnPrimary"
+              type="button"
+              style={{ width: "100%", marginTop: 12 }}
+              onClick={() => alert("Checkout will be added later (backend needed).")}
+            >
+              Checkout
+            </button>
+
+            <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
+              Checkout is a placeholder. Later we will connect payment + order API.
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );
