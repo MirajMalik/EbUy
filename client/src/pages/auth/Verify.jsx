@@ -61,7 +61,7 @@ export default function Verify() {
         <input
           value={token}
           onChange={(e) => setToken(e.target.value)}
-          placeholder="Token (auto-filled if you came from Register)"
+          placeholder="Token"
           required
         />
 
