@@ -11,6 +11,10 @@ import Products from "./pages/products/Products";
 import Cart from "./pages/products/Cart";
 import ProductDetails from "../src/pages/products/ProductDetails";
 
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+
 
 export default function App() {
   return (
@@ -22,6 +26,18 @@ export default function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
 
         <Route path="/cart" element={<Cart />} />
+
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+      />
+
+      <Route path="/login" element={<Login />} />
+
 
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<UserDetails />} />
