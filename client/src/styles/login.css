@@ -1,0 +1,77 @@
+ /* 
+   Login Page Styles
+ */
+
+ .autcontainer{
+  width: 100%;
+  min-height: 100vh;          
+  /* background-color: rgba(66, 13, 13, 0.849); */
+  display: flex;
+  justify-content: center;
+  align-items: center;        
+  padding: 24px; 
+ }
+
+.authCard {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.authGrid {
+  display: grid;
+  gap: 14px;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input2 {
+  width: 75%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: rgb(255, 255, 255);
+  font-size: 15px;
+}
+
+.helper {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.errorText {
+  color: crimson;
+  font-size: 13px;
+}
+
+.successText {
+  color: green;
+  font-size: 13px;
+}
+
+.pwdRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+
+
+.pwdRow button {
+  white-space: nowrap;
+}
