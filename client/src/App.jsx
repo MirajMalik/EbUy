@@ -2,7 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Layout from "./components/Layout";
 
 
-import Home from "./pages/Home";
+import Home from "./pages/auth/Home";
 import Users from "./pages/Users/Users";
 import UserDetails from "./pages/users/UserDetails";
 import Register from "./pages/auth/Register";
@@ -11,7 +11,7 @@ import Products from "./pages/products/Products";
 import Cart from "./pages/products/Cart";
 import ProductDetails from "../src/pages/products/ProductDetails";
 
-import Login from "./pages/Login";
+import Login from "./pages/auth/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 
@@ -36,15 +36,17 @@ export default function App() {
           }
       />
 
-      <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
 
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<UserDetails />} />
 
         <Route path="/register" element={<Register />} />
+
         <Route path="/verify" element={<Verify />} />
       </Routes>
     </Layout>
+   
   );
 }

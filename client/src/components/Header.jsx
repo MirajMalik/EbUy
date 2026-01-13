@@ -37,12 +37,13 @@ export default function Header() {
             </NavLink>
 
             <NavLink to="/products">Products</NavLink>
+
             <NavLink to="/cart">
               Cart <span className="badge">{cartCount}</span>
             </NavLink>
+            <NavLink to="/register">Create Account</NavLink>
 
-            <NavLink to="/users">Users</NavLink>
-            <NavLink to="/register">Register</NavLink>
+            <NavLink to="/login"><b>Admin</b></NavLink>
           </nav>
         </div>
       </div>

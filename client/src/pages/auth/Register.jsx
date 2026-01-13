@@ -1,7 +1,13 @@
+import "../../styles/register.css";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { processRegister } from "../../api";
 
+
+
 export default function Register() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -11,25 +17,25 @@ export default function Register() {
   });
 
   const [image, setImage] = useState(null);
-  const [token, setToken] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
 
-  // For UI messages
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
 
-  // When user types in input, update state
-  function handleChange(e) {
-    setForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  function onChange(e) {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
 
-  async function handleSubmit(e) {
-    e.preventDefault(); // stops page refresh 
+  async function onSubmit(e) {
+    e.preventDefault();
     setMsg("");
     setErr("");
+
+    if (!image) {
+      setErr("Please upload a profile image.");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -40,115 +46,132 @@ export default function Register() {
       fd.append("password", form.password);
       fd.append("phone", form.phone);
       fd.append("address", form.address);
-
-      if (image) fd.append("image", image);
+      fd.append("image", image); // must be field name "image"
 
       const res = await processRegister(fd);
 
-    // message from backend
-    setMsg(res?.message || "Registration process started. Check your email!");
+      setMsg(res?.message || "Registration started. Check your email to verify.");
 
-    // backend returns token in payload
-    const t = res?.payload?.token || res?.payload || res?.token || "";
-    setToken(t);
-
+      //  go to verify page after registration
+      setTimeout(() => navigate("/verify"), 800);
     } catch (e2) {
       setErr(e2?.response?.data?.message || e2.message || "Request failed");
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
-    <div>
-      <h2>Register</h2>
+    <div className="formCard">
+      <h2 style={{ marginTop: 0 }}>Create your EbUy account</h2>
 
-      {msg && <p style={{ color: "green" }}>{msg}</p>}
-      {err && <p style={{ color: "crimson" }}>{err}</p>}
+      <p className="helper">
+        Sign up to save your cart, track orders, and checkout faster.
+      </p>
 
-      <form onSubmit={handleSubmit} style={{ display: "grid", gap: 10, maxWidth: 420 }}>
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Full Name"
-          required
-        />
+      {msg && <p className="successText">{msg}</p>}
+      {err && <p className="errorText">{err}</p>}
 
-        <input
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Email"
-          required
-        />
+      <form onSubmit={onSubmit} className="formGrid">
+        <div className="formRow2">
+          <div>
+            <label className="label">Full Name</label>
+            <input
+              className="input2"
+              name="name"
+              value={form.name}
+              onChange={onChange}
+              placeholder="Your name"
+              required
+            />
+          </div>
 
-        <input
-          name="password"
-          type="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Password"
-          required
-        />
+          <div>
+            <label className="label">Email</label>
+            <input
+              className="input2"
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={onChange}
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+        </div>
 
-        <input
-          name="phone"
-          value={form.phone}
-          onChange={handleChange}
-          placeholder="Phone"
-        />
+        <div className="formRow2">
+          <div>
+            <label className="label">Phone</label>
+            <input
+              className="input2"
+              name="phone"
+              value={form.phone}
+              onChange={onChange}
+              placeholder="01XXXXXXXXX"
+              required
+            />
+          </div>
 
-        <input
-          name="address"
-          value={form.address}
-          onChange={handleChange}
-          placeholder="Address"
-        />
+          <div>
+            <label className="label">Password</label>
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files?.[0] || null)}
-        />
+            <div className="pwdRow">
+              <input
+                className="input2"
+                type={showPwd ? "text" : "password"}
+                name="password"
+                value={form.password}
+                onChange={onChange}
+                placeholder="Create a strong password"
+                required
+              />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Submitting..." : "Process Register"}
+              <button
+                type="button"
+                className="btn"
+                onClick={() => setShowPwd((s) => !s)}
+              >
+                {showPwd ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            <p className="helper">Use at least 8 characters (recommended).</p>
+          </div>
+        </div>
+
+        <div>
+          <label className="label">Address</label>
+          <input
+            className="input2"
+            name="address"
+            value={form.address}
+            onChange={onChange}
+            placeholder="City, area, street..."
+            required
+          />
+        </div>
+
+        <div>
+          <label className="label">Profile Image (required)</label>
+          <input
+            className="input2"
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files?.[0] || null)}
+            required
+          />
+          <p className="helper">Max 2MB.</p>
+        </div>
+
+        <button className="btn btnPrimary" type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Create Account"}
         </button>
-      </form>
 
-      {token && (
-        <div style={{ marginTop: 15, background: "#f6f6f6", padding: 12, borderRadius: 8 }}>
-        <p style={{ margin: 0 }}>
-            <b>Activation Token (for learning/dev):</b>
+        <p className="helper" style={{ margin: 0 }}>
+          Already have an account? <Link to="/login">Sign in</Link>
         </p>
-
-    <textarea
-        readOnly
-        value={token}
-        rows={4}
-        style={{ width: "100%", marginTop: 8 }}
-    />
-
-    <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-      <button
-        type="button"
-        onClick={() => navigator.clipboard.writeText(token)}
-      >
-        Copy Token
-      </button>
-
-      <a href={`/verify?token=${encodeURIComponent(token)}`}>Verify Now →</a>
+      </form>
     </div>
-    </div>
-    )}
-
-
-    <p style={{ fontSize: 13, opacity: 0.8, marginTop: 12 }}>
-        After this, your backend should send a verification token/code to your email.
-    </p>
-    </div>
-
-    
   );
 }

@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../pages/auth/AuthContext";
+import { useAuth } from "../auth/UseAuth";
 
 export default function Login() {
   const { login } = useAuth();

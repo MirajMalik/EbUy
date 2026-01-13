@@ -1,11 +1,53 @@
 import "../../styles/cart.css";
 import { useState } from "react";
+import { Link , useLocation } from "react-router-dom";
 import { clearCart, getCart, removeFromCart, setQty } from "../products/cartStorage";
-import { Link } from "react-router-dom";
+
 
 export default function Cart() {
 
   const [items, setItems] = useState(() => getCart());
+
+  const location = useLocation();
+  const token = localStorage.getItem("ebuy_token"); // login token key
+  const isLoggedIn = Boolean(token);
+
+  if (isLoggedIn) {
+    return (
+      <div className="card">
+        <h2 style={{ marginTop: 0 }}>Login required</h2>
+
+        <p style={{ color: "var(--muted)" }}>
+          To confirm / place an order, you must Sign In or Sign Up first.
+        </p>
+
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <Link to="/login" state={{ from: location.pathname }}>
+            <button className="btn btnPrimary" type="button">
+              Sign In
+            </button>
+          </Link>
+
+          <Link to="/register">
+            <button className="btn" type="button">
+              Sign Up
+            </button>
+          </Link>
+
+          <Link to="/products">
+            <button className="btn" type="button">
+              Browse Products
+            </button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  
+
+
+  
+
 
   // Total = sum(price * qty)
   const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);

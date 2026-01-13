@@ -1,6 +1,7 @@
 
 :root {
-  --bg: #f7f7f9;
+  /* --bg: #f7f7f9; */
+  --bg: #3001273a;
   --card: #ffffff;
   --text: #111827;
   --muted: #6b7280;
@@ -80,6 +81,16 @@ body {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
+}
+
+.btn-View-All-Products{
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  margin-top: 20px;
+  border-radius: 5px;
+  color: rgb(32, 2, 2);
+  background: #ffffff;
 }
 
 .input {
