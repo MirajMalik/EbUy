@@ -27,14 +27,7 @@ export default function App() {
 
         {/* <Route path="/cart" element={<Cart />} /> */}
 
-        <Route
-          path="/cart"
-          element={
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          }
-      />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="/login" element={<Login />} />
 

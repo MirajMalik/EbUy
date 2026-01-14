@@ -8,6 +8,7 @@ export default function Cart() {
 
   const [items, setItems] = useState(() => getCart());
 
+
   const location = useLocation();
   const token = localStorage.getItem("ebuy_token"); // login token key
   const isLoggedIn = Boolean(token);
@@ -173,21 +174,55 @@ export default function Cart() {
               <span>৳ {total}</span>
             </div>
 
-            <button
-              className="btn btnPrimary"
-              type="button"
-              style={{ width: "100%", marginTop: 12 }}
-              onClick={() => alert("Checkout will be added later (backend needed).")}
-            >
-              Checkout
-            </button>
+      {isLoggedIn ? (
+        <>
+          <button
+            className="btn btnPrimary"
+            type="button"
+            style={{ width: "100%", marginTop: 12 }}
+            onClick={() => alert("✅ Order placed .")}
+          >
+            Place Order
+          </button>
 
-            <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
-              Checkout is a placeholder. Later we will connect payment + order API.
-            </p>
-          </div>
-        </div>
-      )}
+          <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
+             payment.
+          </p>
+        </>
+      ) : (
+      <>
+      <button
+        className="btn btnPrimary"
+        type="button"
+        style={{ width: "100%", marginTop: 12 }}
+        onClick={() => (window.location.href = "/login")}
+      >
+        Sign in to Purchase
+      </button>
+
+      <div style={{ display: "flex", gap: 10, marginTop: 10, flexWrap: "wrap" }}>
+        <Link to="/login">
+          <button className="btn" type="button">Sign In</button>
+        </Link>
+
+        <Link to="/register">
+          <button className="btn" type="button">Sign Up</button>
+        </Link>
+      </div>
+
+      <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
+        You can browse products and build your cart, but checkout requires login.
+      </p>
+    </>
+  )}
+
+
+  <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
+      Checkout is a placeholder. Later we will connect payment + order API.
+  </p>
     </div>
-  );
+  </div>
+)}
+</div>
+);
 }
