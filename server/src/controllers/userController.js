@@ -229,7 +229,7 @@ const processRegister =  async (req,res,next) => {
             subject: "Account Activation Email",
             html: `
                 <h2>Hello ${name}</h2>
-                <p>Please click here <a href="${clientUrl}/api/users/activate/${token}" target="_blank"> activate your account</a> </p>
+                <p>Please click here <a href="${clientUrl}/verify?token=${token}">" target="_blank"> activate your account</a> </p>
             `
         }
 

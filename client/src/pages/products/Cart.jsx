@@ -1,70 +1,33 @@
 import "../../styles/cart.css";
 import { useState } from "react";
-import { Link , useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { clearCart, getCart, removeFromCart, setQty } from "../products/cartStorage";
 
-
 export default function Cart() {
-
   const [items, setItems] = useState(() => getCart());
 
-
-  const location = useLocation();
-  const token = localStorage.getItem("ebuy_token"); // login token key
+  // ✅ login check (only once)
+  const token = localStorage.getItem("ebuy_token");
   const isLoggedIn = Boolean(token);
 
-  if (isLoggedIn) {
-    return (
-      <div className="card">
-        <h2 style={{ marginTop: 0 }}>Login required</h2>
-
-        <p style={{ color: "var(--muted)" }}>
-          To confirm / place an order, you must Sign In or Sign Up first.
-        </p>
-
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          <Link to="/login" state={{ from: location.pathname }}>
-            <button className="btn btnPrimary" type="button">
-              Sign In
-            </button>
-          </Link>
-
-          <Link to="/register">
-            <button className="btn" type="button">
-              Sign Up
-            </button>
-          </Link>
-
-          <Link to="/products">
-            <button className="btn" type="button">
-              Browse Products
-            </button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-  
-
-
-  
-
+  // ✅ so we can redirect back to /cart after login 
+  const location = useLocation();
 
   // Total = sum(price * qty)
   const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   function handleRemove(id) {
-    const updated = removeFromCart(id); // updates localStorage
-    setItems(updated); // updates UI
+    const updated = removeFromCart(id);
+    setItems(updated);
   }
 
   function handleQty(id, newQty) {
-    const updated = setQty(id, newQty); // ensures qty >= 1
+    const updated = setQty(id, newQty);
     setItems(updated);
   }
 
   function handleClear() {
-    const updated = clearCart(); // empty cart in localStorage
+    const updated = clearCart();
     setItems(updated);
   }
 
@@ -95,16 +58,13 @@ export default function Cart() {
 
             {items.map((item) => (
               <div key={item.id} className="cartRow">
-                {/* Product column */}
                 <div>
                   <div className="cartName">{item.name}</div>
                   <div className="cartMuted">ID: {item.id}</div>
                 </div>
 
-                {/* Price column */}
                 <div>৳ {item.price}</div>
 
-                {/* Quantity column */}
                 <div className="qtyBox">
                   <button
                     className="qtyBtn"
@@ -125,10 +85,8 @@ export default function Cart() {
                   </button>
                 </div>
 
-                {/* Subtotal column */}
                 <div>৳ {item.price * item.qty}</div>
 
-                {/* Remove button */}
                 <button className="btn" type="button" onClick={() => handleRemove(item.id)}>
                   Remove
                 </button>
@@ -174,55 +132,56 @@ export default function Cart() {
               <span>৳ {total}</span>
             </div>
 
-      {isLoggedIn ? (
-        <>
-          <button
-            className="btn btnPrimary"
-            type="button"
-            style={{ width: "100%", marginTop: 12 }}
-            onClick={() => alert("✅ Order placed .")}
-          >
-            Place Order
-          </button>
+            {/* ✅ Checkout control */}
+            {isLoggedIn ? (
+              <>
+                <button
+                  className="btn btnPrimary"
+                  type="button"
+                  style={{ width: "100%", marginTop: 12 }}
+                  onClick={() => alert("✅ Order placed (placeholder).")}
+                >
+                  Place Order
+                </button>
 
-          <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
-             payment.
-          </p>
-        </>
-      ) : (
-      <>
-      <button
-        className="btn btnPrimary"
-        type="button"
-        style={{ width: "100%", marginTop: 12 }}
-        onClick={() => (window.location.href = "/login")}
-      >
-        Sign in to Purchase
-      </button>
+                <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
+                  Later we will connect payment + order API.
+                </p>
+              </>
+            ) : (
+              <>
+                <Link to="/login" state={{ from: location.pathname }}>
+                  <button
+                    className="btn btnPrimary"
+                    type="button"
+                    style={{ width: "100%", marginTop: 12 }}
+                  >
+                    Sign in to Purchase
+                  </button>
+                </Link>
 
-      <div style={{ display: "flex", gap: 10, marginTop: 10, flexWrap: "wrap" }}>
-        <Link to="/login">
-          <button className="btn" type="button">Sign In</button>
-        </Link>
+                <div style={{ display: "flex", gap: 10, marginTop: 10, flexWrap: "wrap" }}>
+                  <Link to="/login" state={{ from: location.pathname }}>
+                    <button className="btn" type="button">
+                      Sign In
+                    </button>
+                  </Link>
 
-        <Link to="/register">
-          <button className="btn" type="button">Sign Up</button>
-        </Link>
-      </div>
+                  <Link to="/register">
+                    <button className="btn" type="button">
+                      Sign Up
+                    </button>
+                  </Link>
+                </div>
 
-      <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
-        You can browse products and build your cart, but checkout requires login.
-      </p>
-    </>
-  )}
-
-
-  <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
-      Checkout is a placeholder. Later we will connect payment + order API.
-  </p>
+                <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 10 }}>
+                  You can build your cart, but checkout requires login.
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
-  </div>
-)}
-</div>
-);
+  );
 }
