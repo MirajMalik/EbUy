@@ -28,3 +28,10 @@ export async function verifyUser(payload) {
   const res = await api.post("/users/verify", payload);
   return res.data;
 }
+
+
+// GET /api/products
+export async function getProducts() {
+  const res = await api.get("/products");
+  return res.data;
+}
